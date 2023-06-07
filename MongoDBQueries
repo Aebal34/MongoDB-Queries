@@ -1,7 +1,20 @@
 --Restaurants - 1
 db.rest.find()
 --Restaurants - 2
-db.rest.find({}, {_id: false, restaurant_id: true, name: true, borough:true, cuisine:true})
+db.rest.find({}, {restaurant_id: true, name: true, borough:true, cuisine:true})
 --Restaurants - 3
+db.rest.find({}, {_id: false, restaurant_id: true, name: true, borough:true, cuisine:true})
+--Restaurants - 4
+db.rest.find({}, {_id:false, restaurant_id:true, name:true, borough:true, "address.zipcode":true})
+--Restaurants - 5
+db.rest.find({borough:"Bronx"})
+--Restaurants - 6
+db.rest.find({borough:"Bronx"}).limit(5)
+--Restaurants - 7
+db.rest.find({borough:"Bronx"}).skip(5).limit(5)
+--Restaurants - 8
+db.rest.find({"grades.score":{$gt:90}})
+--Restaurants - 9
+
 
 
