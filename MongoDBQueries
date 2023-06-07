@@ -1,0 +1,7 @@
+--Restaurants - 1
+db.rest.find()
+--Restaurants - 2
+db.rest.find({}, {_id: false, restaurant_id: true, name: true, borough:true, cuisine:true})
+--Restaurants - 3
+
+
