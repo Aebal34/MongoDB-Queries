@@ -28,4 +28,27 @@ db.rest.find({cuisine: {$nin:["American", "American "]}, "grades.grade":"A", bor
 db.rest.find({name: /^Wil/}, {restaurant_id: true, name:true, borough:true, cuisine:true, _id:false})
 --Restaurants - 15
 db.rest.find({name: {$regex: "ces$"}}, {restaurant_id: true, name:true, borough:true, cuisine:true, _id:false})
+--Restaurants - 16
+db.rest.find({name: /.*Reg.*/}, {_id:false, restaurant_id:true, borough:true, name:true, cuisine:true})
+--Restaurants - 17
+db.rest.find({borough:"Bronx", $or: [{cuisine:"American"}, {cuisine:"American "}, {cuisine:"Chinese"} ]})
+--Restaurants - 18
+db.rest.find({$or: [{borough: "Staten Island"}, {borough:"Queens"}, {borough:"Bronx"}, {borough:"Brooklyn"}]}, {_id:false, restaurant_id:true, name:true, borough:true, cuisine:true})
+--Restaurants - 19
+db.rest.find({$nor: [{borough: "Staten Island"}, {borough:"Queens"}, {borough:"Bronx"}, {borough:"Brooklyn"}]}, {_id:false, restaurant_id:true, name:true, borough:true, cuisine:true})
+--Restaurants - 20
+db.rest.find({"grades.score":{$not:{$gt:10}}}, {_id:false, restaurant_id:true, name:true, borough:true, cuisine:true})
+--Restaurants - 21
+db.rest.find({$and:[{cuisine:"Seafood"}, {cuisine:{$nin:["American", "American ", "Chinese"]}}]}, {_id:false, restaurant_id:true, name:true, borough:true, cuisine:true})
+--Restaurants - 22
+db.rest.find({grades: {$elemMatch:{grade:"A", score:11, date:ISODate("2014-08-11T00:00:00Z")}}}, {_id:false, restaurant_id:true, name:true, grades:true})
+--Restaurants - 23
+db.rest.find({$and:[{"grades.1.score":9}, {"grades.1.grade":"A"}, {"grades.1.date": ISODate("2014-08-11T00:00:00Z")}]}, {_id:false, restaurant_id:true, name:true, grades:true})
+--Restaurants - 24
+db.rest.find({"address.coord.1":{$gt:42, $lte:52}}, {_id:false, restaurant_id:true, name:true, address:true})
+--Restaurants - 25
+db.rest.find({}, {name:true}).sort({name:1})
+--Restaurants - 26
+db.rest.find().sort({name:-1})
+
 
