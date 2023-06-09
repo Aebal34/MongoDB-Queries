@@ -21,5 +21,11 @@ db.rest.find({"address.coord.0":{$lt:-95.754168}})
 --Restaurants - 11
 db.rest.find({cuisine:{$nin:["American", "American "]}, "grades.score":{$gt:70}, "address.coord.0":{$lt:-65.754168}})
 --Restaurants - 12
-
+db.rest.find({cuisine:{$nin:["American", "American "]}, "grades.score":{$gt:70}, "address.coord.1":{$lt:-65.754168}})
+--Restaurants - 13
+db.rest.find({cuisine: {$nin:["American", "American "]}, "grades.grade":"A", borough:{$ne:"Brooklyn"}})
+--Restaurants - 14
+db.rest.find({name: /^Wil/}, {restaurant_id: true, name:true, borough:true, cuisine:true, _id:false})
+--Restaurants - 15
+db.rest.find({name: {$regex: "ces$"}}, {restaurant_id: true, name:true, borough:true, cuisine:true, _id:false})
 
