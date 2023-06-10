@@ -1,54 +1,66 @@
---Restaurants - 1
+//Restaurants - 1
 db.rest.find()
---Restaurants - 2
+//Restaurants - 2
 db.rest.find({}, {restaurant_id: true, name: true, borough:true, cuisine:true})
---Restaurants - 3
+//Restaurants - 3
 db.rest.find({}, {_id: false, restaurant_id: true, name: true, borough:true, cuisine:true})
---Restaurants - 4
+//Restaurants - 4
 db.rest.find({}, {_id:false, restaurant_id:true, name:true, borough:true, "address.zipcode":true})
---Restaurants - 5
+//Restaurants - 5
 db.rest.find({borough:"Bronx"})
---Restaurants - 6
+//Restaurants - 6
 db.rest.find({borough:"Bronx"}).limit(5)
---Restaurants - 7
+//Restaurants - 7
 db.rest.find({borough:"Bronx"}).skip(5).limit(5)
---Restaurants - 8
+//Restaurants - 8
 db.rest.find({"grades.score":{$gt:90}})
---Restaurants - 9
+//Restaurants - 9
 db.rest.find({"grades.score":{$gt:80, $lt:100}})
---Restaurants - 10
+//Restaurants - 10
 db.rest.find({"address.coord.0":{$lt:-95.754168}})
---Restaurants - 11
+//Restaurants - 11
 db.rest.find({cuisine:{$nin:["American", "American "]}, "grades.score":{$gt:70}, "address.coord.0":{$lt:-65.754168}})
---Restaurants - 12
+//Restaurants - 12
 db.rest.find({cuisine:{$nin:["American", "American "]}, "grades.score":{$gt:70}, "address.coord.1":{$lt:-65.754168}})
---Restaurants - 13
+//Restaurants - 13
 db.rest.find({cuisine: {$nin:["American", "American "]}, "grades.grade":"A", borough:{$ne:"Brooklyn"}})
---Restaurants - 14
+//Restaurants - 14
 db.rest.find({name: /^Wil/}, {restaurant_id: true, name:true, borough:true, cuisine:true, _id:false})
---Restaurants - 15
+//Restaurants - 15
 db.rest.find({name: {$regex: "ces$"}}, {restaurant_id: true, name:true, borough:true, cuisine:true, _id:false})
---Restaurants - 16
+//Restaurants - 16
 db.rest.find({name: /.*Reg.*/}, {_id:false, restaurant_id:true, borough:true, name:true, cuisine:true})
---Restaurants - 17
+//Restaurants - 17
 db.rest.find({borough:"Bronx", $or: [{cuisine:"American"}, {cuisine:"American "}, {cuisine:"Chinese"} ]})
---Restaurants - 18
+//Restaurants - 18
 db.rest.find({$or: [{borough: "Staten Island"}, {borough:"Queens"}, {borough:"Bronx"}, {borough:"Brooklyn"}]}, {_id:false, restaurant_id:true, name:true, borough:true, cuisine:true})
---Restaurants - 19
+//Restaurants - 19
 db.rest.find({$nor: [{borough: "Staten Island"}, {borough:"Queens"}, {borough:"Bronx"}, {borough:"Brooklyn"}]}, {_id:false, restaurant_id:true, name:true, borough:true, cuisine:true})
---Restaurants - 20
+//Restaurants - 20
 db.rest.find({"grades.score":{$not:{$gt:10}}}, {_id:false, restaurant_id:true, name:true, borough:true, cuisine:true})
---Restaurants - 21
+//Restaurants - 21
 db.rest.find({$and:[{cuisine:"Seafood"}, {cuisine:{$nin:["American", "American ", "Chinese"]}}]}, {_id:false, restaurant_id:true, name:true, borough:true, cuisine:true})
---Restaurants - 22
+//Restaurants - 22
 db.rest.find({grades: {$elemMatch:{grade:"A", score:11, date:ISODate("2014-08-11T00:00:00Z")}}}, {_id:false, restaurant_id:true, name:true, grades:true})
---Restaurants - 23
+//Restaurants - 23
 db.rest.find({$and:[{"grades.1.score":9}, {"grades.1.grade":"A"}, {"grades.1.date": ISODate("2014-08-11T00:00:00Z")}]}, {_id:false, restaurant_id:true, name:true, grades:true})
---Restaurants - 24
+//Restaurants - 24
 db.rest.find({"address.coord.1":{$gt:42, $lte:52}}, {_id:false, restaurant_id:true, name:true, address:true})
---Restaurants - 25
+//Restaurants - 25
 db.rest.find({}, {name:true}).sort({name:1})
---Restaurants - 26
+//Restaurants - 26
 db.rest.find().sort({name:-1})
-
-
+//Restaurants - 27
+db.rest.find({}, {borough:true, cuisine:true}).sort({cuisine:1, borough:-1}) 
+//Restaurants - 28
+db.rest.find({"address.street":{$exists:true}}) //Shows all documents which values'fields exists (all of them)
+db.rest.find({"address.street":{$exists:false}}) //shows all documents which field doesn't exist (none)
+db.rest.find({"address.street":null}) //shows all documents which values'fields are empty, or null (none)
+//Restaurants - 29
+db.rest.find({"address.coord":{$type:"double"}}) //All documents have a coord value whose data type is double
+//Restaurants - 30
+db.rest.aggregate([{$project:{restaurant_id:true, name:true, grade:{$filter:{input:"$grades", as: "grade", cond:{$eq:[{$mod:["$$grade.score", 7]}, 0]}}}}}, {$match:{grade:{$ne:[]}}}])
+//Restaurants - 31
+db.rest.find({name:/.*mon.*/}, {name:true, borough:true, "address.coord":true, cuisine:true})
+//Restaurants - 32
+db.rest.find({name:/^Mad/}, {name:true, borough:true, "address.coord":true, cuisine:true})
